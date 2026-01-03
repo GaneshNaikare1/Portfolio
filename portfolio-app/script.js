@@ -22,13 +22,60 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  // Smooth scrolling for internal links (non-JS fallback exists via CSS)
+  // About toggle reveal (expands/collapses multiple sections)
+  const aboutToggle = document.getElementById('about-toggle');
+  const revealIds = ['about','skills','experience','projects','certifications','contact'];
+  function expandSectionById(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('collapsed');
+    el.classList.add('expanded');
+    el.setAttribute('aria-hidden','false');
+  }
+  function collapseSectionById(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.add('collapsed');
+    el.classList.remove('expanded');
+    el.setAttribute('aria-hidden','true');
+  }
+
+  if(aboutToggle){
+    aboutToggle.addEventListener('click', function(){
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      if(!isExpanded){
+        // expand all relevant sections
+        revealIds.forEach(expandSectionById);
+        this.setAttribute('aria-expanded','true');
+        // scroll to About after small delay
+        setTimeout(()=>{ const a = document.getElementById('about'); if(a) a.scrollIntoView({behavior:'smooth',block:'start'}); }, 150);
+      } else {
+        // collapse all relevant sections
+        revealIds.forEach(collapseSectionById);
+        this.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+
+  // Smooth scrolling for internal links (reveal target if collapsed)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if(targetId.length>1){
         e.preventDefault();
-        const el = document.querySelector(targetId);
+        const selector = targetId;
+        const el = document.querySelector(selector);
+        const id = selector.replace('#','');
+        if(revealIds.includes(id)){
+          // If the target is collapsed, expand it first
+          const targetEl = document.getElementById(id);
+          if(targetEl && targetEl.classList.contains('collapsed')){
+            expandSectionById(id);
+            // After animation, scroll
+            setTimeout(()=>{ if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }, 150);
+            return;
+          }
+        }
         if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
       }
     });

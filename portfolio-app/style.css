@@ -27,13 +27,16 @@ body{
 }
 
 /* NAV */
-.nav-wrap{background:rgba(255,255,255,0.85);position:sticky;top:0;backdrop-filter:blur(6px);z-index:50;border-bottom:1px solid #e6edf3}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 0}
+.nav-wrap{background:rgba(255,255,255,0.95);position:fixed;top:0;left:0;right:0;backdrop-filter:blur(6px);z-index:200;border-bottom:1px solid #e6edf3}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 0}
 .brand{font-weight:700;color:var(--accent);text-decoration:none}
 #nav-toggle{display:inline-block;background:none;border:0;font-size:1.25rem}
 .nav-links{list-style:none;padding:0;margin:0;display:flex;gap:1rem}
 .nav-links a{color:var(--text);text-decoration:none;padding:0.35rem 0.5rem;border-radius:6px}
 .nav-links a:hover{background:rgba(11,92,255,0.08)}
+
+/* ensure page content is not hidden under fixed navbar */
+main{padding-top:4.5rem}
 
 /* Mobile-first: stack layout */
 .hero{display:grid;grid-template-columns:1fr;background:transparent;padding:2.5rem 0;gap:1.25rem;align-items:center}
@@ -46,8 +49,24 @@ body{
 .btn{display:inline-block;padding:0.6rem 0.9rem;border-radius:8px;text-decoration:none;font-weight:600;border:1px solid transparent}
 .btn.primary{background:var(--accent);color:#fff}
 .btn.outline{background:transparent;border-color:var(--accent);color:var(--accent)}
+/* CTA button visual harmonization */
+.cta .btn{min-width:140px;padding:0.7rem 1rem;border-radius:12px;box-shadow:0 6px 18px rgba(11,92,255,0.08);transition:transform .18s ease,box-shadow .18s ease}
+.cta .btn:active{transform:translateY(1px)}
+
+.btn.secondary{background:transparent;border:1px solid #d0d7e5;color:var(--text)}
+.btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Hero socials placed under resume */
+.hero-socials{display:flex;gap:0.65rem;margin-top:0.6rem}
+.social-link{display:inline-flex;align-items:center;gap:0.45rem;padding:0.25rem 0.5rem;border-radius:8px;background:rgba(11,92,255,0.04);color:var(--accent);text-decoration:none;font-weight:600}
+.social-link .social-icon{width:16px;height:16px;fill:currentColor}
+.social-link:hover{background:rgba(11,92,255,0.08);transform:translateY(-2px)}
 
 .section{padding:2rem 0}
+/* Collapsed/expanded transition for sections (used by About reveal) */
+.section.collapsed{max-height:0;overflow:hidden;padding-top:0;padding-bottom:0;opacity:0;transition:max-height .42s ease,opacity .32s ease,padding .32s ease}
+.section.collapsed.expanded{max-height:2000px;padding-top:2rem;padding-bottom:2rem;opacity:1}
+
 .lead{color:var(--muted);margin-bottom:0.8rem}
 .two-col{display:grid;gap:1rem}
 .timeline{padding-left:1rem}
@@ -70,7 +89,10 @@ body{
 input[type="text"],input[type="email"],textarea{width:100%;padding:0.6rem;border-radius:8px;border:1px solid #d7e1ea;background:#fff}
 .actions{display:flex;justify-content:flex-start}
 .socials{margin-top:1rem;display:flex;gap:1rem}
-.socials a{color:var(--accent);text-decoration:none}
+.socials a{display:inline-flex;align-items:center;gap:0.5rem;color:var(--accent);text-decoration:none;font-weight:600;transition:color .18s ease}
+.social-icon{width:20px;height:20px;display:inline-block;fill:currentColor;transition:transform .18s ease,opacity .18s ease}
+.socials a:hover{color:rgba(11,92,255,0.95)}
+.socials a:hover .social-icon{transform:translateY(-3px)}
 
 /* Footer */
 .footer{background:#0f1724;color:#fff;padding:1.25rem 0;margin-top:1.5rem}
